@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.app2')
 
 @section('content')
 <div class="container">
@@ -82,6 +82,17 @@
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
+                        </div>
+
+                        <div class="row mb-1">
+                            <label for="rol" class="col-md-4 col-form-label text-md-end">{{ __('Asignar Rol ') }}</label>
+                            <div class="col-md-6"> 
+                            <select class="form-control  col-md-4 col-form-label" name="rol" id="rol">
+                                      <option value="1" selected>Colaborador</option>
+                                      <option value="2" >Administrador</option>
+                              </select>
+                            </div>
+                        </div>
                         </div>
 
                         <div class="row mb-0">

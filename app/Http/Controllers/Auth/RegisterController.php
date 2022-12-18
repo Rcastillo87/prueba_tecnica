@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -23,7 +24,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
     /**
      * Where to redirect users after registration.
      *
@@ -38,7 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -51,10 +51,15 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'rol' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:7', 'confirmed'],
             'apellido' => ['required', 'string', 'max:255'],
             'telefono' => ['required', 'string', 'max:12'],
+            'password' => ['required', 'string', 'min:7', 'confirmed',
+            Password::min(7)
+            ->mixedCase()
+            ->letters()
+            ->numbers()],         
         ]);
     }
 
@@ -72,7 +77,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'apellido' => $data['apellido'],
             'telefono' => $data['telefono'],
-            'estado' => 1
+            'estado' => 1,
+            'rol' => $data['rol']
         ]);
     }
 }
